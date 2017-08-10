@@ -1,0 +1,54 @@
+<configuration>
+    <consolePlugin/>
+    <!-- 控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 控制台编码暂不设定为UTF-8, Windows中批处理命令模式下可能会有乱码 -->
+            <!--
+            <charset>UTF-8</charset>
+            -->
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{2}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 系统日志 -->
+    <appender name="warehouse" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/warehouse.%d{yyyy-M-d}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{2}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="console" additivity="false" level="info">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.amzass" additivity="false" level="info">
+        <appender-ref ref="warehouse"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.mailman" additivity="false" level="info">
+        <appender-ref ref="warehouse"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.kbers" additivity="false" level="info">
+        <appender-ref ref="warehouse"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.nutz" additivity="false" level="error">
+        <appender-ref ref="warehouse"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.quartz" additivity="false" level="error">
+        <appender-ref ref="warehouse"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.kber.aop.ProfileInterceptor" additivity="false" level="debug">
+        <appender-ref ref="console"/>
+    </logger>
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>
